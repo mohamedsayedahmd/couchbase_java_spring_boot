@@ -45,13 +45,18 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save user");
         }
     }
+    // --> Delete User By ID
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable(name="id")String _id){
-        try{
-            String result = userService.deleteUser(_id);
+    public ResponseEntity<String> deleteUser(@PathVariable(name = "id") String id) {
+        try {
+            String result = userService.deleteUser(id);
             return ResponseEntity.ok(result);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Can't delete this user");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid user ID format"); // 11114s3
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting user"); // deleted twice
         }
     }
 

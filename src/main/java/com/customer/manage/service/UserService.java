@@ -5,6 +5,7 @@ import com.customer.manage.model.LoginRequest;
 import com.customer.manage.model.User;
 import com.customer.manage.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,6 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-//    public String saveUser(User user){
-//        userRepo.save(user);
-//        return "user Saved Successfully!!";
-//    }
     public List<User> getAllUsers(){
         return userRepo.findAll();
     }
@@ -33,7 +30,6 @@ public class UserService {
 
         } else {
             User retrievedUser = optionalUser.get();
-            // Compare the stored password with the input password (you should hash and compare securely)
             if (storedPassword.equals(loginRequest.getPassword())) {
                 System.out.println("Retrieved User: " + retrievedUser);
                 System.out.println("user password: " + retrievedUser.getPassword());
@@ -52,12 +48,18 @@ public class UserService {
             throw new RuntimeException("Failed to save user", e);
         }
     }
-    public String deleteUser(String id){
-        try{
-            userRepo.deleteById(Integer.valueOf(id));
-            return "This user was deleted successfully";
-        }catch (Exception e){
-            throw new RuntimeException("Error");
+    public String deleteUser(String id) throws UserNotFoundException {
+        try {
+            int userId = Integer.parseInt(id);
+            userRepo.deleteById(userId);
+            return "User with ID " + userId + " was deleted successfully";
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid user ID format");
+        } catch (EmptyResultDataAccessException e) {
+            throw new UserNotFoundException("User not found for ID " + id);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while deleting the user");
         }
     }
+
 }
