@@ -156,6 +156,28 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Find All the users with the same name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8010/api/users/find-users-by-name/mhmd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"api",
+						"users",
+						"find-users-by-name",
+						"mhmd"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
