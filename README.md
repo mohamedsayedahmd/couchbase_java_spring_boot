@@ -21,25 +21,40 @@ CREATE PRIMARY INDEX `#primary` ON `bucketName`
 }
 ```
 - GET REQUEST : http://localhost:8010/customers/fetchAllCustomers
-
+___
 ### Relevant Requests for user Bucket: 
+## Register
 - POST REQUEST: http://localhost:8010/users/ :
 ```
 {
-    "id" : 121,
-    "name": "Amer",
-    "email" : "Amer@gmail.com"
+    "id" : 111143,
+    "name": "Rami",
+    "email" : "rami@gmail.com",
+    "password" : "123456"
 }
 ```
-- GET REQUEST : http://localhost:8010/users/getAllUsers
+## Login
+- POST REQUEST : http://localhost:8010/api/users/login
+```
+{
 
+    "username" : "Amer@gmail.com",
+    "password" : "123456"
+}
+
+```
+## Return All Users
+- GET REQUEST : http://localhost:8010/users/getAllUsers
+## Delete User By ID
+- DELETE REQUEST : http://localhost:8010/api/users/delete/111143
 ___
-This Project has 5 Packages That I had create :
+This Project has 6 Packages That I had create :
 - controller
 - model
 - service
 - repo
 - config
+- exception
 
 ___
 

@@ -17,11 +17,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-//    @PostMapping("/") // http://localhost:8010/api/users
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public String saveUser(@RequestBody User user){
-//        return userService.saveUser(user);
-//    }
+
     @GetMapping("/getAllUsers")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getAllUsers(){
