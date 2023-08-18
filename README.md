@@ -22,18 +22,19 @@ CREATE PRIMARY INDEX `#primary` ON `bucketName`
 ```
 - GET REQUEST : http://localhost:8010/customers/fetchAllCustomers
 ___
+## User Bucket
 ### Relevant Requests for user Bucket: 
-## Register
-- POST REQUEST: http://localhost:8010/users/ :
+## Register User
+- POST REQUEST: http://localhost:8010/api/users/register :
 ```
 {
-    "id" : 111143,
-    "name": "Rami",
-    "email" : "rami@gmail.com",
+    "id" : 3,
+    "name": "mhmd",
+    "email" : "mhmd3@gmail.com",
     "password" : "123456"
 }
 ```
-## Login
+## Login User
 - POST REQUEST : http://localhost:8010/api/users/login
 ```
 {
@@ -47,6 +48,9 @@ ___
 - GET REQUEST : http://localhost:8010/users/getAllUsers
 ## Delete User By ID
 - DELETE REQUEST : http://localhost:8010/api/users/delete/111143
+___
+## Find All the users with the same name
+- GET REQUEST : http://localhost:8010/api/users/find-users-by-name/mhmd
 ___
 This Project has 6 Packages That I had create :
 - controller
