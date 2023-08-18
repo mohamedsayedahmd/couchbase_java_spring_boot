@@ -1,28 +1,62 @@
 package com.customer.manage.controller;
 
+import com.customer.manage.exceptions.UserNotFoundException;
+import com.customer.manage.model.LoginRequest;
 import com.customer.manage.model.User;
 import com.customer.manage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
-    @PostMapping("/")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String saveUser(@RequestBody User user){
-        return userService.saveUser(user);
-    }
+//    @PostMapping("/") // http://localhost:8010/api/users
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public String saveUser(@RequestBody User user){
+//        return userService.saveUser(user);
+//    }
     @GetMapping("/getAllUsers")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getAllUsers(){
         return userService.getAllUsers();
+    }
+
+    // -->  Login
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            User isAuthenticated = userService.authenticateUser(loginRequest);
+            return ResponseEntity.ok(isAuthenticated);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"); // or any other error response
+        }
+    }
+    // --> Create New User
+    @PostMapping("/register") // http://localhost:8010/api/users/register
+    public ResponseEntity<String> saveUser(@RequestBody User user){
+        try{
+            String result = userService.saveUser(user);
+            return ResponseEntity.ok(result);
+
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save user");
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable(name="id")String _id){
+        try{
+            String result = userService.deleteUser(_id);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Can't delete this user");
+        }
     }
 
 }
