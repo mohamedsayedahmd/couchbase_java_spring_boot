@@ -61,5 +61,14 @@ public class UserService {
             throw new RuntimeException("An error occurred while deleting the user");
         }
     }
+    public Iterable<User> getAllUsersWithName(String name) {
+        try {
+            return userRepo.findUsersByName(name);
+        } catch (Exception e) {
+            // Handle the exception or rethrow it with additional information
+            throw new RuntimeException("Failed to retrieve users with name: " + name, e);
+        }
+    }
+
 
 }

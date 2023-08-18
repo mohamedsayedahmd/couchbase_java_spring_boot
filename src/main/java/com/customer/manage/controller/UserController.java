@@ -59,5 +59,16 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting user"); // deleted twice
         }
     }
+    @GetMapping("/find-users-by-name/{name}")
+    public ResponseEntity<Iterable<User>> findUsersByName(@PathVariable String name) {
+        try {
+            Iterable<User> result = userService.getAllUsersWithName(name);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
 
 }
